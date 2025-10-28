@@ -1,0 +1,431 @@
+
+bool IsAimLongAim = false;
+char AimName[32];
+int Aimchoose = (int)NumIo[21];
+
+
+int findminat()
+{
+using namespace std;
+std::srand(std::time(0));
+    float min = NumIo[3];
+	float DistanceMin = NumIo[17];
+    float minDistance = NumIo[19]; // 设置自瞄的最小距离为150米
+    int minAt = 999;
+    for (int i = 0; i < MaxPlayerCount; i++)
+    {
+		switch ((int)NumIo[21])
+        {
+            case 0:
+    if (IsAimLongAim) {
+			if (strcmp(Aim[i].Name, AimName) == 0)
+    		{           	
+        			minAt = i;
+    			}
+		} else {
+    			if (Aim[i].ScreenDistance < min && Aim[i].ScreenDistance < minDistance < NumIo[3] )
+    			{
+					if (DrawIo[30]) {
+						strcpy(AimName, Aim[i].Name);
+					}
+        			min = Aim[i].ScreenDistance;
+        			minAt = i;
+    			}
+		}
+	break;
+case 1:
+    if (IsAimLongAim) {
+			if (strcmp(Aim[i].Name, AimName) == 0)
+    		{           	
+        			minAt = i;
+    			}
+		} else {
+    			if //(Aim[i].WodDistance < DistanceMin && Aim[i].WodDistance < minDistance < NumIo[3])
+    			
+    			(Aim[i].WodDistance < DistanceMin&&Aim[i].ScreenDistance < NumIo[3])
+    			
+    			
+    			
+    			{
+    			
+					if (DrawIo[30]) {
+						strcpy(AimName, Aim[i].Name);
+					}
+        			DistanceMin = Aim[i].WodDistance;
+        			minAt = i;
+				}
+    		}
+    break;
+
+		}
+    }
+    if (minAt == 999)
+    {
+        Gmin = -1;
+		IsAimLongAim = false;
+        return -1;
+    }
+    Gmin = minAt;   
+    Aim[minAt].WodDistance;
+	if (DrawIo[30]) {
+		IsAimLongAim = true;
+	}
+    return minAt;
+}
+
+Vec2 vpvp;
+float fwjl = NumIo[3];
+
+
+
+void AimBotAuto()
+{   
+    bool isDown = false;
+        
+	
+    double leenx = 0.0f;
+    
+	
+    double leeny = 0.0f;
+   
+  //  double tx = NumIo[5], ty = NumIo[6];
+    double tx = NumIo[5], ty = NumIo[6];
+
+    float SpeedMin = 2.0f;
+    
+
+    double w = 0.0f, h = 0.0f, cmp = 0.0f;
+    
+    double ScreenX,ScreenY;
+    if(screen_x<screen_y)
+    {
+    ScreenX = screen_x;ScreenY = screen_y;
+    }
+    else
+    {
+    ScreenX = screen_y;ScreenY = screen_x;    
+    }
+    
+    double ScrXH = ScreenX / 2.0f;
+    
+
+    double ScrYH = ScreenY / 2.0f;
+    
+
+    static float TargetX = 0;
+    static float TargetY = 0;
+    
+	
+	float PushX;
+	
+	float PushY;
+	
+    
+    Vec3 obj;
+    
+    float NowCoor[3];
+  // TouchScreenHandle(); 
+
+
+//std::thread*触摸位置线程 = new std::thread([&]{
+    while (1)
+    {
+    
+    
+		usleep(1000000 / 120);
+		
+		ImGuiIO& iooi = ImGui::GetIO();
+		
+		if (DrawIo[21] && iooi.MouseDown[0] && iooi.MousePos.x <= NumIo[6] + NumIo[7] && iooi.MousePos.y <= screen_y - NumIo[5] + NumIo[7] && iooi.MousePos.x >= NumIo[6] - NumIo[7] && iooi.MousePos.y >= screen_y - NumIo[5] - NumIo[7])
+        {           
+        	usleep(30000);      
+            if (DrawIo[21] && iooi.MouseDown[0] && iooi.MousePos.x <= NumIo[6] + NumIo[7] && iooi.MousePos.y <= screen_y - NumIo[5] + NumIo[7] && iooi.MousePos.x >= NumIo[6] - NumIo[7] && iooi.MousePos.y >= screen_y - NumIo[5] - NumIo[7])
+        	{
+           		while (DrawIo[21] && iooi.MouseDown[0] && iooi.MousePos.x <= NumIo[6] + NumIo[7] && iooi.MousePos.y <= screen_y - NumIo[5] + NumIo[7] && iooi.MousePos.x >= NumIo[6] - NumIo[7] && iooi.MousePos.y >= screen_y - NumIo[5] - NumIo[7])
+                {			
+    				NumIo[6] = iooi.MousePos.x;
+                    NumIo[5] = screen_y - iooi.MousePos.y;
+					TouchingColor = ImColor(0, 220, 0, 150);
+    				usleep(500);           				
+                }		
+				TouchingColor = ImColor(255, 0, 0, 150);
+            }
+        }
+   
+          
+                 
+                     //          });                             		触摸位置线程->detach();
+		
+		
+	
+		
+		
+        if (!DrawIo[20])
+        {           
+			IsAimLongAim = false;
+	        if (isDown == true)
+            {
+				usleep(1000);
+                tx = NumIo[5], ty = NumIo[6];
+                // 恢复变量 
+                Touch::Up(6);
+                // 抬起
+                isDown = false;
+            }
+            usleep(NumIo[9] * 1000);
+            continue;
+        }
+        
+        findminat();
+        // 获取目标
+
+        if (Gmin == -1)
+        {          
+			IsAimLongAim = false;
+            if (isDown == true)
+            {
+				usleep(1000);
+                tx = NumIo[5], ty = NumIo[6];
+                // 恢复变量 
+                Touch::Up(6);
+                // 抬起
+                isDown = false;
+            }
+            usleep(NumIo[9] * 1000);
+            continue;
+        }
+		      ///ToReticleDistance=到准星距离 
+        float ToReticleDistance = Aim[Gmin].ScreenDistance;              
+        float FlyTime = Aim[Gmin].WodDistance / NumIo[11];
+        float DropM = 540.0f * FlyTime * FlyTime;
+        // 下坠
+                  
+	    NowCoor[0] = Aim[Gmin].ObjAim.x;
+        NowCoor[1] = Aim[Gmin].ObjAim.y;
+        NowCoor[2] = Aim[Gmin].ObjAim.z;
+        obj.x = NowCoor[0] + (Aim[Gmin].AimMovement.x * FlyTime*NumIo[22]);
+        obj.y = NowCoor[1] + (Aim[Gmin].AimMovement.y * FlyTime*NumIo[22]);
+        obj.z = NowCoor[2] + (Aim[Gmin].AimMovement.z * FlyTime*NumIo[22]) + DropM;
+		
+	//	if (temp->IsFiring == 1)
+	//		obj.z -= Aim[Gmin].WodDistance * NumIo[14] * GetWeaponId(temp->MyWeapon);
+		
+	
+	
+	
+	if (temp->IsFiring == 1)
+            
+
+                
+                    obj.z -= Aim[Gmin].WodDistance * NumIo[14] * GetWeaponId(temp->MyWeapon); 
+                
+           if (temp->IsAiming == 1)
+                
+                    obj.z -= Aim[Gmin].WodDistance * NumIo[37] * GetWeaponId(temp->MyWeapon);
+                
+            
+		
+		
+		float cameras = temp->matrix[3] * obj.x + temp->matrix[7] * obj.y + temp->matrix[11] * obj.z + temp->matrix[15]; 
+        
+        vpvp = WorldIsScreen(obj, temp->matrix, cameras);      
+		//float AimDs = sqrt(pow(screen_x / 2 - vpvp.x, 2) + pow(screen_y / 2 - vpvp.y, 2));
+		
+			float AimDs = sqrt(pow(screen_x / 2 - vpvp.x, 2) + pow(screen_y / 2 - vpvp.y, 2));
+		
+		
+		
+        zm_y = vpvp.x;     
+        zm_x = ScreenX - vpvp.y;        
+	
+		
+		if(DrawIo[23]&&DrawIo[20]&&temp->IsFiring==1)
+        {
+            fwjl = AimDs;
+            
+        }else{//没开镜恢复圈大小
+            fwjl = NumIo[3];
+        }
+		
+		float Aimspeace = NumIo[4];
+						
+        if (zm_x <= 0 || zm_x >= ScreenX || zm_y <= 0 || zm_y >= ScreenY)
+        {          
+			IsAimLongAim = false;
+            if (isDown == true)
+            {
+				usleep(1000);
+                tx = NumIo[5], ty = NumIo[6];
+                // 恢复变量 
+                Touch::Up(6);
+                // 抬起
+                isDown = false;
+            }
+            usleep(NumIo[9] * 1000);
+            continue;
+        }
+
+        if (ToReticleDistance <= NumIo[3] || AimDs <= NumIo[3])
+        {
+            switch ((int)NumIo[0])
+            {
+                case 0:
+                    if (temp->IsFiring != 1)
+                    {
+						IsAimLongAim = false;
+                        if (isDown == true)
+                        {
+							usleep(1000);
+                            tx = NumIo[5], ty = NumIo[6];
+                            // 恢复变量
+                            Touch::Up(6);
+                            isDown = false;
+                        }                      
+                        usleep(NumIo[9] * 1000);
+                        continue;
+                    }
+                break;
+                case 1:
+                    if (temp->IsFiring != 1 || temp->IsAiming != 1)
+                    {
+						IsAimLongAim = false;
+                        if (isDown == true)
+                        {
+							usleep(1000);
+                            tx = NumIo[5], ty = NumIo[6];
+                            // 恢复变量
+                            Touch::Up(6);
+                            isDown = false;
+                        }
+                        usleep(NumIo[9] * 1000);
+                        continue;
+                    }
+                break;
+                case 2:
+                    if (temp->IsFiring != 1 && temp->IsAiming != 1)
+                    {
+						IsAimLongAim = false;
+                        if (isDown == true)
+                        {
+							usleep(1000);
+                            tx = NumIo[5], ty = NumIo[6];
+                            // 恢复变量
+                            Touch::Up(6);
+                            isDown = false;
+                        }
+                        usleep(NumIo[9] * 1000);
+                        continue;
+                    }
+                break;
+				case 3:
+                    
+                break;
+            }
+			
+			float Acc = getScopeAcc((int)(90 / temp->Fov));
+			
+            if (isDown == false)
+            {
+				usleep(1000);
+				if (NumIo[10] == 0.0f)
+                	Touch::Down(6, (int)tx, (int)ty);
+				else
+					Touch::Down(6, screen_y - (int)tx, screen_x-(int)ty);
+                isDown = true;
+				usleep(1000);
+            }
+
+            if (zm_x > ScrXH) {
+                TargetX = -(ScrXH - zm_x) / NumIo[4] * Acc;
+                if (TargetX + ScrXH > ScrXH * 2) {
+                    TargetX = 0;
+                }
+            }
+            else if (zm_x < ScrXH) {
+                TargetX = (zm_x - ScrXH) / NumIo[4] * Acc;             
+                if (TargetX + ScrXH < 0) {
+                    TargetX = 0;
+                }
+            }
+            
+            if (zm_y > ScrYH) {
+                TargetY = -(ScrYH - zm_y) / NumIo[4] * Acc;              
+                if (TargetY + ScrYH > ScrYH * 2) {
+                    TargetY = 0;
+                }
+            }
+            else if (zm_y < ScrYH) {
+                TargetY = (zm_y - ScrYH) / NumIo[4] * Acc;              
+                if (TargetY + ScrYH < 0) {
+                    TargetY = 0;
+                }
+            }
+            
+            
+
+            
+
+            if (TargetY >= 35 || TargetX >= 35 || TargetY <= -35 || TargetX <= -35)
+            {
+                if (isDown)
+                {
+					usleep(1000);
+                    tx = NumIo[5], ty = NumIo[6];
+                    // 恢复变量
+                    Touch::Up(6);
+                    isDown = false;
+                }
+                usleep(NumIo[9] * 1000);
+                continue;
+            }           		
+			
+            tx += TargetX;
+            ty += TargetY;		
+			
+            if (tx >= NumIo[5] + NumIo[7] || tx <= NumIo[5] - NumIo[7]
+                || ty >= NumIo[6] + NumIo[7] || ty <= NumIo[6] - NumIo[7])
+            {
+				usleep(1000);
+                // 只要滑屏达到了边界，直接还原至中心
+                tx = NumIo[5], ty = NumIo[6];
+                // 恢复变量
+                Touch::Up(6);
+                // 抬起          
+				usleep(3000);  
+				// 延迟
+				if (!NumIo[10])
+                	Touch::Down(6, (int)tx, (int)ty);
+			    else
+					Touch::Down(6, screen_y - (int)tx, screen_x - (int)ty);
+                // 按下           
+				isDown = true;
+				
+				tx += TargetX;
+            	ty += TargetY;		
+				
+				usleep(1000);
+            }         		     
+			
+			if (!NumIo[10])
+           		Touch::Move(6, (int)tx, (int)ty);
+		    else
+		    	Touch::Move(6, screen_y - (int)tx, screen_x - (int)ty);
+			
+			isDown = true;
+			
+			usleep(NumIo[9] * 1000);
+        } else {          
+			IsAimLongAim = false;
+            if (isDown)
+            {
+                tx = NumIo[5], ty = NumIo[6];
+                // 恢复变量 
+                Touch::Up(6);
+                // 抬起
+                isDown = false;
+				// 延时
+				usleep(NumIo[9] * 1000);
+            }
+        }      
+    }
+}

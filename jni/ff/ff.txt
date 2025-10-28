@@ -1,0 +1,65 @@
+
+        if (temp->mPlayerArray.mPlayer[i].w > 0 && temp->mPlayerArray.mPlayer[i].Head.ScreenPos.x > 0 && temp->mPlayerArray.mPlayer[i].Head.ScreenPos.x < screen_x && temp->mPlayerArray.mPlayer[i].Head.ScreenPos.y > 0 && temp->mPlayerArray.mPlayer[i].Head.ScreenPos.y < screen_y)
+        {
+        
+if(DrawIo[20]&&((DrawIo[31]&&!temp->mPlayerArray.mPlayer[i].IsBot)||!DrawIo[31])&&((DrawIo[32]&&temp->mPlayerArray.mPlayer[i].Health>0)||!DrawIo[32]))
+            {              
+				strcpy(Aim[AimCount].Name, temp->mPlayerArray.mPlayer[i].PlayerName);
+            	Aim[AimCount].WodDistance = temp->mPlayerArray.mPlayer[i].Distance;   
+                Aim[AimCount].AimMovement = temp->mPlayerArray.mPlayer[i].Predict;
+		    if (NumIo[8] == 1.0) { // 头部
+        Aim[AimCount].ObjAim = temp->mPlayerArray.mPlayer[i].Head.Pos;
+        Aim[AimCount].ScreenDistance = sqrt(pow(screen_x / 2 - temp->mPlayerArray.mPlayer[i].Head.ScreenPos.x, 2) + pow(screen_y / 2 - temp->mPlayerArray.mPlayer[i].Head.ScreenPos.y, 2));
+    } else if (NumIo[8] == 2.0) { // 胸部
+        Aim[AimCount].ObjAim = temp->mPlayerArray.mPlayer[i].Chest.Pos;
+        Aim[AimCount].ScreenDistance = sqrt(pow(screen_x / 2 - temp->mPlayerArray.mPlayer[i].Chest.ScreenPos.x, 2) + pow(screen_y / 2 - temp->mPlayerArray.mPlayer[i].Chest.ScreenPos.y, 2));
+    } else if (NumIo[8] == 3.0) { // 盆骨
+        Aim[AimCount].ObjAim = temp->mPlayerArray.mPlayer[i].Pelvis.Pos; 
+        Aim[AimCount].ScreenDistance = sqrt(pow(screen_x / 2 - temp->mPlayerArray.mPlayer[i].Pelvis.ScreenPos.x, 2) + pow(screen_y / 2 - temp->mPlayerArray.mPlayer[i].Pelvis.ScreenPos.y, 2));
+    } else if (NumIo[8] == 4.0) { // 左肩膀
+        Aim[AimCount].ObjAim = temp->mPlayerArray.mPlayer[i].Left_Shoulder.Pos;
+        Aim[AimCount].ScreenDistance = sqrt(pow(screen_x / 2 - temp->mPlayerArray.mPlayer[i].Left_Shoulder.ScreenPos.x, 2) + pow(screen_y / 2 - temp->mPlayerArray.mPlayer[i].Left_Shoulder.ScreenPos.y, 2));
+    } else if (NumIo[8] == 5.0) { // 右肩膀
+        Aim[AimCount].ObjAim = temp->mPlayerArray.mPlayer[i].Right_Shoulder.Pos;
+        Aim[AimCount].ScreenDistance = sqrt(pow(screen_x / 2 - temp->mPlayerArray.mPlayer[i].Right_Shoulder.ScreenPos.x, 2) + pow(screen_y / 2 - temp->mPlayerArray.mPlayer[i].Right_Shoulder.ScreenPos.y, 2));
+    } else if (NumIo[8] == 6.0) { // 左手肘
+        Aim[AimCount].ObjAim = temp->mPlayerArray.mPlayer[i].Left_Elbow.Pos;
+        Aim[AimCount].ScreenDistance = sqrt(pow(screen_x / 2 - temp->mPlayerArray.mPlayer[i].Left_Elbow.ScreenPos.x, 2) + pow(screen_y / 2 - temp->mPlayerArray.mPlayer[i].Left_Elbow.ScreenPos.y, 2));
+    } else if (NumIo[8] == 7.0) { // 右手肘
+        Aim[AimCount].ObjAim = temp->mPlayerArray.mPlayer[i].Right_Elbow.Pos;
+        Aim[AimCount].ScreenDistance = sqrt(pow(screen_x / 2 - temp->mPlayerArray.mPlayer[i].Right_Elbow.ScreenPos.x, 2) + pow(screen_y / 2 - temp->mPlayerArray.mPlayer[i].Right_Elbow.ScreenPos.y, 2));
+    } else if (NumIo[8] == 8.0) { // 左手腕
+        Aim[AimCount].ObjAim = temp->mPlayerArray.mPlayer[i].Left_Wrist.Pos;
+        Aim[AimCount].ScreenDistance = sqrt(pow(screen_x / 2 - temp->mPlayerArray.mPlayer[i].Left_Wrist.ScreenPos.x, 2) + pow(screen_y / 2 - temp->mPlayerArray.mPlayer[i].Left_Wrist.ScreenPos.y, 2));
+    } else if (NumIo[8] == 9.0) { // 右手腕
+        Aim[AimCount].ObjAim = temp->mPlayerArray.mPlayer[i].Right_Wrist.Pos;
+        Aim[AimCount].ScreenDistance = sqrt(pow(screen_x / 2 - temp->mPlayerArray.mPlayer[i].Right_Wrist.ScreenPos.x, 2) + pow(screen_y / 2 - temp->mPlayerArray.mPlayer[i].Right_Wrist.ScreenPos.y, 2));
+    } else if (NumIo[8] == 10.0) { // 左大腿
+        Aim[AimCount].ObjAim = temp->mPlayerArray.mPlayer[i].Left_Thigh.Pos;
+        Aim[AimCount].ScreenDistance = sqrt(pow(screen_x / 2 - temp->mPlayerArray.mPlayer[i].Left_Thigh.ScreenPos.x, 2) + pow(screen_y / 2 - temp->mPlayerArray.mPlayer[i].Left_Thigh.ScreenPos.y, 2));
+    } else if (NumIo[8] == 11.0) { // 右大腿
+        Aim[AimCount].ObjAim = temp->mPlayerArray.mPlayer[i].Right_Thigh.Pos;
+        Aim[AimCount].ScreenDistance = sqrt(pow(screen_x / 2 - temp->mPlayerArray.mPlayer[i].Right_Thigh.ScreenPos.x, 2) + pow(screen_y / 2 - temp->mPlayerArray.mPlayer[i].Right_Thigh.ScreenPos.y, 2));
+    } else if (NumIo[8] == 12.0) { // 左膝盖
+        Aim[AimCount].ObjAim = temp->mPlayerArray.mPlayer[i].Left_Knee.Pos;
+        Aim[AimCount].ScreenDistance = sqrt(pow(screen_x / 2 - temp->mPlayerArray.mPlayer[i].Left_Knee.ScreenPos.x, 2) + pow(screen_y / 2 - temp->mPlayerArray.mPlayer[i].Left_Knee.ScreenPos.y, 2));
+    } else if (NumIo[8] == 13.0) { // 右膝盖
+        Aim[AimCount].ObjAim = temp->mPlayerArray.mPlayer[i].Right_Knee.Pos;
+        Aim[AimCount].ScreenDistance = sqrt(pow(screen_x / 2 - temp->mPlayerArray.mPlayer[i].Right_Knee.ScreenPos.x, 2) + pow(screen_y / 2 - temp->mPlayerArray.mPlayer[i].Right_Knee.ScreenPos.y, 2));
+    } else if (NumIo[8] == 14.0) { // 左脚腕
+        Aim[AimCount].ObjAim = temp->mPlayerArray.mPlayer[i].Left_Ankle.Pos;
+        Aim[AimCount].ScreenDistance = sqrt(pow(screen_x / 2 - temp->mPlayerArray.mPlayer[i].Left_Ankle.ScreenPos.x, 2) + pow(screen_y / 2 - temp->mPlayerArray.mPlayer[i].Left_Ankle.ScreenPos.y, 2));
+    } else if (NumIo[8] == 15.0) { // 右脚腕
+        Aim[AimCount].ObjAim = temp->mPlayerArray.mPlayer[i].Right_Ankle.Pos;
+        Aim[AimCount].ScreenDistance = sqrt(pow(screen_x / 2 - temp->mPlayerArray.mPlayer[i].Right_Ankle.ScreenPos.x, 2) + pow(screen_y / 2 - temp->mPlayerArray.mPlayer[i].Right_Ankle.ScreenPos.y, 2));
+    } else { // 默认选择头部
+        Aim[AimCount].ObjAim = temp->mPlayerArray.mPlayer[i].Head.Pos;
+        Aim[AimCount].ScreenDistance = sqrt(pow(screen_x / 2 - temp->mPlayerArray.mPlayer[i].Head.ScreenPos.x, 2) + pow(screen_y / 2 - temp->mPlayerArray.mPlayer[i].Head.ScreenPos.y, 2));
+    }
+
+  
+
+AimCount++;
+}
+измени код так чтобы тот наводился на ближайшую кость к центру экрана вот пример определения центра экрана float distanceToCenter = sqrt(pow(temp->mPlayerArray.mPlayer[i].ScreenPos.x - (screen_x / 2), 2) + pow(temp->mPlayerArray.mPlayer[i].ScreenPos.y - (screen_y / 2), 2));
+    bool isInCircle = (distanceToCenter <= fwjl);

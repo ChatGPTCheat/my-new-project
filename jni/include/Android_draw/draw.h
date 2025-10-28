@@ -1,0 +1,90 @@
+//
+// Created by 泓清 on 2022/8/26.
+//
+#ifndef NATIVESURFACE_DRAW_H
+#define NATIVESURFACE_DRAW_H
+// System libs
+#include <iostream>
+#include <thread>
+#include <chrono>
+#include <EGL/egl.h>
+#include <GLES/gl.h>
+#include <dlfcn.h>
+#include <unistd.h>
+#include <sys/mman.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <cstdio>
+#include <cstring>
+#include <cerrno>
+#include <android/native_window.h>
+#include <EGL/eglext.h>
+#include <GLES3/gl3platform.h>
+#include <GLES3/gl3ext.h>
+#include <GLES3/gl32.h>
+
+// User libs
+//#include <native_surface.h>
+#include "native_surface/ANativeWindowCreator.h"
+#include <imgui.h>
+#include <imgui_internal.h>
+#include <backends/imgui_impl_opengl3.h>
+#include <backends/imgui_impl_android.h>
+#include <VecTool.h>
+#include <font/font.h>
+// namespace
+using namespace std;
+using namespace std::chrono_literals;
+extern EGLDisplay display;
+extern EGLSurface surface;
+struct Screen {
+    float ScreenX;
+    float ScreenY;
+};
+extern string logoDataBase64;
+extern string aim_off_Base64;
+extern string taichi_Base64;
+extern string aim_on_Base64;
+extern string player_Base64;
+extern string robot_Base64;
+extern string shanshuiBase64;
+extern string aim_on1_Base64;
+extern string aim_on2_Base64;
+extern bool UE4Get;
+extern bool DrawIo[50];
+extern float NumIo[50];
+extern Screen full_screen;
+extern int Orientation;
+extern int screen_x, screen_y;
+extern int native_window_screen_x, native_window_screen_y;
+extern int init_screen_x, init_screen_y;
+extern bool g_Initialized;
+extern android::ANativeWindowCreator::DisplayInfo displayInfo;
+extern ImGuiWindow *g_window;
+// Func
+string exec(string command);
+void UpdateScreenData(int w, int h, uint32_t orientation_);
+void ExplosionRange(Vec3 Obj, ImColor color, float Range, float thickn);
+		void ExplosionRangeFilled(Vec3 Obj, ImColor color, float Range, int num_segments);
+
+extern int abs_ScreenX, abs_ScreenY;
+// window创建的 大小
+extern int native_window_screen_x, native_window_screen_y;
+//	float TouchFPS = 430;
+	extern void drawBegin();
+	
+	char *randstr(char *str, const int len);
+	
+	void GetTouch();
+
+//int init_egl(int _screen_x,int _screen_y, bool flp,bool log = false);
+int init_egl(int _screen_x,int _screen_y, bool log = false);
+void screen_config();
+void ImGui_init();
+void shutdown();
+void 加载图片();
+void OffScreen(Vec2 Obj, float camear, ImColor color, float Radius);
+void ExplosionRange(Vec3 Obj, ImColor color, float Range, float thickn);
+void ExplosionRangeFilled(Vec3 Obj, ImColor color, float Range, int num_segments);
+#endif //NATIVESURFACE_DRAW_H

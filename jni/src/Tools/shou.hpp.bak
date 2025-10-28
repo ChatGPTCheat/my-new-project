@@ -1,0 +1,106 @@
+#ifndef SHOU_HPP
+#define SHOU_HPP
+#include <stdint.h>
+
+extern uintptr_t 数组;
+extern bool 初始化;
+extern int 测试;
+extern uintptr_t 模块地址;
+
+extern uintptr_t Ue4gg;
+extern uintptr_t arraygg;
+
+extern void 温迪();
+extern void 冰冷();
+extern void 散兵();
+extern void 落叶宝宝();
+extern void 巴巴托斯();
+extern void 酷安();
+
+#endif
+void Draw3DBox(Vec3 object_position,Vec3 object_pass, Vec3 object_hand, float object_Angle, float box_width, ImColor BoxColor, float BoxSize, bool IsAi) {
+    Vec3 rotate_position[8];     // 存储旋转变换8个点坐标
+    Vec2 object_point[8];          // 对象屏幕坐标                                        
+
+	/* 下_左上 */
+    rotate_position[0].x = object_position.x + box_width * (float)sin((object_Angle + 45) * M_PI / 180);
+    rotate_position[0].y = object_position.y + box_width * (float)cos((object_Angle + 45) * M_PI / 180);
+    rotate_position[0].z = object_pass.z;
+	
+	/* 下_左下 */
+	rotate_position[1].x = object_position.x + box_width * (float)sin((object_Angle + 135) * M_PI / 180);
+    rotate_position[1].y = object_position.y + box_width * (float)cos((object_Angle + 135) * M_PI / 180);
+    rotate_position[1].z = object_pass.z;
+	
+	/* 下_右下 */
+	rotate_position[2].x = object_position.x + box_width * (float)sin((object_Angle + 225) * M_PI / 180);
+    rotate_position[2].y = object_position.y + box_width * (float)cos((object_Angle + 225) * M_PI / 180);
+    rotate_position[2].z = object_pass.z;
+	
+	/* 下_右上 */
+	rotate_position[3].x = object_position.x + box_width * (float)sin((object_Angle + 315) * M_PI / 180);
+    rotate_position[3].y = object_position.y + box_width * (float)cos((object_Angle + 315) * M_PI / 180);
+    rotate_position[3].z = object_pass.z;
+	
+	
+	/* 上_左上 */
+    rotate_position[4].x = object_position.x + box_width * (float)sin((object_Angle + 45) * M_PI / 180);
+    rotate_position[4].y = object_position.y + box_width * (float)cos((object_Angle + 45) * M_PI / 180);
+    rotate_position[4].z = object_hand.z + 10;
+	
+	/* 上_左下 */
+	rotate_position[5].x = object_position.x + box_width * (float)sin((object_Angle + 135) * M_PI / 180);
+    rotate_position[5].y = object_position.y + box_width * (float)cos((object_Angle + 135) * M_PI / 180);
+    rotate_position[5].z = object_hand.z + 10;
+	
+	/* 上_右下 */
+	rotate_position[6].x = object_position.x + box_width * (float)sin((object_Angle + 225) * M_PI / 180);
+    rotate_position[6].y = object_position.y + box_width * (float)cos((object_Angle + 225) * M_PI / 180);
+    rotate_position[6].z = object_hand.z + 10;
+	
+	/* 上_右上 */
+	rotate_position[7].x = object_position.x + box_width * (float)sin((object_Angle + 315) * M_PI / 180);
+    rotate_position[7].y = object_position.y + box_width * (float)cos((object_Angle + 315) * M_PI / 180);
+    rotate_position[7].z = object_hand.z + 10;
+	
+	/* 遍历坐标数组转换屏幕坐标 */
+	for (int i = 0 ; i < 8 ; i ++) {
+		float cameras = temp->matrix[3] * rotate_position[i].x + temp->matrix[7] * rotate_position[i].y + temp->matrix[11] * rotate_position[i].z + temp->matrix[15]; 
+		object_point[i] = WorldIsScreen(rotate_position[i], temp->matrix, cameras);
+	}
+	
+	ImGui::GetBackgroundDrawList()->AddLine({object_point[0].x, object_point[0].y}, {object_point[3].x, object_point[3].y}, BoxColor, {BoxSize});
+	ImGui::GetBackgroundDrawList()->AddLine({object_point[1].x, object_point[1].y}, {object_point[2].x, object_point[2].y}, BoxColor, {BoxSize});
+	ImGui::GetBackgroundDrawList()->AddLine({object_point[0].x, object_point[0].y}, {object_point[1].x, object_point[1].y}, BoxColor, {BoxSize});
+	ImGui::GetBackgroundDrawList()->AddLine({object_point[3].x, object_point[3].y}, {object_point[2].x, object_point[2].y}, BoxColor, {BoxSize});
+	
+	ImGui::GetBackgroundDrawList()->AddLine({object_point[4].x, object_point[4].y}, {object_point[7].x, object_point[7].y}, BoxColor, {BoxSize});
+	ImGui::GetBackgroundDrawList()->AddLine({object_point[5].x, object_point[5].y}, {object_point[6].x, object_point[6].y}, BoxColor, {BoxSize});
+	ImGui::GetBackgroundDrawList()->AddLine({object_point[4].x, object_point[4].y}, {object_point[5].x, object_point[5].y}, BoxColor, {BoxSize});
+	ImGui::GetBackgroundDrawList()->AddLine({object_point[7].x, object_point[7].y}, {object_point[6].x, object_point[6].y}, BoxColor, {BoxSize});
+	
+	ImGui::GetBackgroundDrawList()->AddLine({object_point[0].x, object_point[0].y}, {object_point[4].x, object_point[4].y}, BoxColor, {BoxSize});
+	ImGui::GetBackgroundDrawList()->AddLine({object_point[1].x, object_point[1].y}, {object_point[5].x, object_point[5].y}, BoxColor, {BoxSize});
+	ImGui::GetBackgroundDrawList()->AddLine({object_point[2].x, object_point[2].y}, {object_point[6].x, object_point[6].y}, BoxColor, {BoxSize});
+	ImGui::GetBackgroundDrawList()->AddLine({object_point[3].x, object_point[3].y}, {object_point[7].x, object_point[7].y}, BoxColor, {BoxSize});
+	
+	if (IsAi) {
+		ImGui::GetBackgroundDrawList()->AddQuadFilled({object_point[0].x, object_point[0].y}, {object_point[4].x, object_point[4].y}, {object_point[5].x, object_point[5].y}, {object_point[1].x, object_point[1].y}, BotBoxblackColor);
+		ImGui::GetBackgroundDrawList()->AddQuadFilled({object_point[3].x, object_point[3].y}, {object_point[7].x, object_point[7].y}, {object_point[2].x, object_point[2].y}, {object_point[6].x, object_point[6].y}, BotBoxblackColor);
+	
+		ImGui::GetBackgroundDrawList()->AddQuadFilled({object_point[0].x, object_point[0].y}, {object_point[4].x, object_point[4].y}, {object_point[7].x, object_point[7].y}, {object_point[3].x, object_point[3].y}, BotBoxblackColor);
+		ImGui::GetBackgroundDrawList()->AddQuadFilled({object_point[1].x, object_point[1].y}, {object_point[5].x, object_point[5].y}, {object_point[6].x, object_point[6].y}, {object_point[2].x, object_point[2].y}, BotBoxblackColor);
+	
+		ImGui::GetBackgroundDrawList()->AddQuadFilled({object_point[0].x, object_point[0].y}, {object_point[1].x, object_point[1].y}, {object_point[2].x, object_point[2].y}, {object_point[3].x, object_point[3].y}, BotBoxblackColor);
+		ImGui::GetBackgroundDrawList()->AddQuadFilled({object_point[4].x, object_point[4].y}, {object_point[5].x, object_point[5].y}, {object_point[6].x, object_point[6].y}, {object_point[7].x, object_point[7].y}, BotBoxblackColor);
+	} else {
+		ImGui::GetBackgroundDrawList()->AddQuadFilled({object_point[0].x, object_point[0].y}, {object_point[4].x, object_point[4].y}, {object_point[5].x, object_point[5].y}, {object_point[1].x, object_point[1].y}, BotBoxblackColor);
+		ImGui::GetBackgroundDrawList()->AddQuadFilled({object_point[3].x, object_point[3].y}, {object_point[7].x, object_point[7].y}, {object_point[2].x, object_point[2].y}, {object_point[6].x, object_point[6].y}, BotBoxblackColor);
+	
+		ImGui::GetBackgroundDrawList()->AddQuadFilled({object_point[0].x, object_point[0].y}, {object_point[4].x, object_point[4].y}, {object_point[7].x, object_point[7].y}, {object_point[3].x, object_point[3].y}, BotBoxblackColor);
+		ImGui::GetBackgroundDrawList()->AddQuadFilled({object_point[1].x, object_point[1].y}, {object_point[5].x, object_point[5].y}, {object_point[6].x, object_point[6].y}, {object_point[2].x, object_point[2].y}, BotBoxblackColor);
+	
+		ImGui::GetBackgroundDrawList()->AddQuadFilled({object_point[0].x, object_point[0].y}, {object_point[1].x, object_point[1].y}, {object_point[2].x, object_point[2].y}, {object_point[3].x, object_point[3].y}, BotBoxblackColor);
+		ImGui::GetBackgroundDrawList()->AddQuadFilled({object_point[4].x, object_point[4].y}, {object_point[5].x, object_point[5].y}, {object_point[6].x, object_point[6].y}, {object_point[7].x, object_point[7].y}, BotBoxblackColor);
+	}
+}
